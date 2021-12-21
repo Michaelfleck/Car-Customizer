@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  api:
+    # use this to do start:dev instead
+    # command: 'yarn start:dev'
+    environment:
+      MYSQL_DATABASE: api
+      MYSQL_PASSWORD: password
+      MYSQL_USER: user
+    ports:
+      - 3000:3000
+    user: "${UID}:${GID}"
+  mysql:
+    environment:
+      MYSQL_DATABASE: api
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_USER: user
+    # use this to access the DB directly with tools
+    # ports:
+    # - 3306:3306
+  view:
+    command: bash -c 'npm install && npm start'
+    environment:
+      API_BASE_URL: http://api
+    ports:
+      - 3000:3000
+    user: "${UID}:${GID}"

@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  api:
+    command: 'yarn start'
+    depends_on:
+      - mysql
+    image: node:lts
+    volumes:
+      - ./api:/app
+    working_dir: /app
+  mysql:
+    image: mariadb
+    volumes:
+      - ./mysql/init:/docker-entrypoint-initdb.d:ro
+      - ./mysql/data:/var/lib/mysql:rw
+  view:
+    command: 'npm start'
+    depends_on:
+      - api
+    image: node:lts
+    volumes:
+      - ./view:/app
+    working_dir: /app
